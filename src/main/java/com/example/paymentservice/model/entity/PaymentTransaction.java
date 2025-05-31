@@ -18,6 +18,7 @@ import java.util.List;
  * 2. В @Convert обьявляем что за конвертер нужно использовать
  */
 @Entity
+@Table(name = "payment_transaction")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,7 +28,7 @@ public class PaymentTransaction extends BaseEntity {
     private String currency;
 
     @Convert(converter = PaymentTransactionStatusConverter.class)
-    private PaymentTransactionStatus paymentTransactionStatus;
+    private PaymentTransactionStatus status;
 
     private String errorMessage;
 
