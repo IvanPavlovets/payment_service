@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  title: carParking-OpenAPI
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/swagger-ui/index.html
+tags:
+  - name: api/v1/parking
+paths:
+  /api/v1/parking/exit:
+    post:
+      tags:
+        - api/v1/parking
+      summary: Регистрация выезда автомобиля
+      description: Создает запись о выезде автомобиля с парковки
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                licensePlate: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+      responses:
+        '200':
+          description: Успешная регистрация выезда
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: '*/*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                timestamp: <dateTime>
+        '404':
+          description: Автомобиль не найден на парковке
+        '400':
+            description: Неверные входные данные
+        '500':
+            description: Внутренняя ошибка сервера
+  /api/v1/parking/entry:
+    post:
+      tags:
+        - api/v1/parking
+      summary: Регистрация въезда автомобиля
+      description: Создает запись о въезде автомобиля на парковку
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                licensePlate: <string>
+                vehicleType: <string>
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+      responses:
+        '200':
+          description: Успешная регистрация въезда
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: '*/*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                timestamp: <dateTime>
+        '400':
+          description: Неверные входные данные
+        '500':
+          description: Внутренняя ошибка сервера
+  /api/v1/parking/report:
+    get:
+      tags:
+        - api/v1/parking
+      summary: Получение отчета по парковке
+      description: Возвращает статистику по парковке за указанный период
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: start
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <dateTime>
+        - name: end
+          in: query
+          schema:
+            type: string
+          description: '(Required) '
+          example: <dateTime>
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: '*/*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                totalEntries: <long>
+                totalExits: <long>
+                averageParkingTime: <double>
+        '400':
+          description: Неверные параметры запроса
+        '500':
+          description: Внутренняя ошибка сервера
